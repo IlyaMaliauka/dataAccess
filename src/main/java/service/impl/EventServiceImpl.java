@@ -1,8 +1,9 @@
-package service;
+package service.impl;
 
-import dao.EventDaoImpl;
+import dao.EventDao;
 import model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
+import service.EventService;
 
 import java.util.Date;
 import java.util.List;
@@ -13,11 +14,11 @@ import java.util.stream.Collectors;
  */
 public class EventServiceImpl implements EventService {
 
-    /**
-     * The Event dao.
-     */
-    @Autowired
-    EventDaoImpl eventDao;
+    private EventDao eventDao;
+
+    public EventServiceImpl(EventDao eventDao) {
+        this.eventDao = eventDao;
+    }
 
     /**
      * Gets event by its id.

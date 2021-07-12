@@ -1,12 +1,13 @@
-package service;
+package service.impl;
 
 
-import dao.TicketDaoImpl;
+import dao.TicketDao;
 import model.Event;
 import model.Ticket;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import util.Category;
+import service.TicketService;
+import model.Category;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,8 +17,11 @@ import java.util.stream.Collectors;
  */
 public class TicketServiceImpl implements TicketService {
 
-    @Autowired
-    TicketDaoImpl ticketDao;
+    private final TicketDao ticketDao;
+
+    public TicketServiceImpl(TicketDao ticketDao) {
+        this.ticketDao = ticketDao;
+    }
 
     /**
      * Book ticket for a specified event on behalf of specified user.

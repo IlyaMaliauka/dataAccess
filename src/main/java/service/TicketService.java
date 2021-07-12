@@ -3,7 +3,7 @@ package service;
 import model.Event;
 import model.Ticket;
 import model.User;
-import util.Category;
+import model.Category;
 
 import java.util.List;
 

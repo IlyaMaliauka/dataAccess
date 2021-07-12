@@ -8,7 +8,7 @@ public class Test {
     @org.junit.Test
     public void sampleTest() {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
-        UserService userService = context.getBean(UserService.class);
+        UserService userService = context.getBean("userService", UserService.class);
         User user = new User("Ivan", "Email");
         userService.createUser(user);
         System.out.println(userService.getUserByEmail("Email"));

@@ -1,8 +1,8 @@
-package service;
+package service.impl;
 
-import dao.UserDaoImpl;
+import dao.UserDao;
 import model.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import service.UserService;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
  */
 public class UserServiceImpl implements UserService {
 
-    /**
-     * The User dao.
-     */
-    @Autowired
-    UserDaoImpl userDao;
+    private final UserDao userDao;
+
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     /**
      * Gets user by its id.

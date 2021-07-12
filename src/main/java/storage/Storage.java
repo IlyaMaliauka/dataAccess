@@ -1,16 +1,22 @@
 package storage;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
- * The interface Storage.
+ * The type Hash map storage.
  */
-public interface Storage {
+public class Storage {
 
-    /**
-     * Gets storage.
-     *
-     * @return the storage
-     */
-    Map<String, Object> getStorage();
+    private static Map<String, Object> instance;
+
+    private Storage() {
+    }
+
+    public static Map<String, Object> getStorage() {
+        if (instance == null) {
+            instance = new HashMap<>();
+        }
+        return instance;
+    }
 }

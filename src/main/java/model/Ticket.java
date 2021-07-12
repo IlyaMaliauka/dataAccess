@@ -1,7 +1,6 @@
 package model;
 
 import lombok.Data;
-import util.Category;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

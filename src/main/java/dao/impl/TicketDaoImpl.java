@@ -1,30 +1,38 @@
-package dao;
+package dao.impl;
 
+import dao.TicketDao;
 import model.Ticket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import storage.Storage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The type Ticket dao.
  */
-@Component
-public class TicketDaoImpl extends BaseDao implements TicketDao {
+public class TicketDaoImpl implements TicketDao {
 
+    private Storage ticketStorage;
     private static final Logger LOGGER = LoggerFactory.getLogger(TicketDaoImpl.class);
     private static final String STORAGE_PREFIX = "TICKET";
-    private Map<String, Object> ticketStorage = storage.getStorage();
+
+    /**
+     * Instantiates a new Ticket dao.
+     *
+     * @param ticketStorage the storage
+     */
+    public TicketDaoImpl(Storage ticketStorage) {
+        this.ticketStorage = ticketStorage;
+    }
 
     @Override
     public List<Ticket> getAll() {
         List<Ticket> allTickets = new ArrayList<>();
-        ticketStorage.keySet().stream()
+        ticketStorage.getStorage().keySet().stream()
                 .filter(key -> key.contains(STORAGE_PREFIX))
-                .forEach(key -> allTickets.add((Ticket) ticketStorage.get(key)));
+                .forEach(key -> allTickets.add((Ticket) ticketStorage.getStorage().get(key)));
         return allTickets;
     }
 
@@ -32,7 +40,7 @@ public class TicketDaoImpl extends BaseDao implements TicketDao {
     public boolean delete(long id) {
         String removeKey = STORAGE_PREFIX + id;
         try {
-            ticketStorage.remove(removeKey);
+            ticketStorage.getStorage().remove(removeKey);
             return true;
         } catch (Exception e) {
             LOGGER.warn("Failed to delete event with id {}", id);
@@ -43,6 +51,6 @@ public class TicketDaoImpl extends BaseDao implements TicketDao {
     @Override
     public Ticket create(Ticket ticket) {
         String key = STORAGE_PREFIX + ticket.getId();
-        return (Ticket) ticketStorage.put(key, ticket);
+        return (Ticket) ticketStorage.getStorage().put(key, ticket);
     }
 }
