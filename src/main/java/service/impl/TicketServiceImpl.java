@@ -5,6 +5,7 @@ import dao.TicketDao;
 import model.Event;
 import model.Ticket;
 import model.User;
+import model.impl.TicketImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.TicketService;
 import model.Category;
@@ -19,6 +20,11 @@ public class TicketServiceImpl implements TicketService {
 
     private final TicketDao ticketDao;
 
+    /**
+     * Instantiates a new Ticket service.
+     *
+     * @param ticketDao the ticket dao
+     */
     public TicketServiceImpl(TicketDao ticketDao) {
         this.ticketDao = ticketDao;
     }
@@ -35,7 +41,7 @@ public class TicketServiceImpl implements TicketService {
      */
     @Override
     public Ticket bookTicket(long userId, long eventId, int place, Category category) {
-        return ticketDao.create(new Ticket(eventId, userId, category, place));
+        return ticketDao.create(new TicketImpl(eventId, userId, category, place));
     }
 
     /**

@@ -16,6 +16,11 @@ public class EventServiceImpl implements EventService {
 
     private EventDao eventDao;
 
+    /**
+     * Instantiates a new Event service.
+     *
+     * @param eventDao the event dao
+     */
     public EventServiceImpl(EventDao eventDao) {
         this.eventDao = eventDao;
     }

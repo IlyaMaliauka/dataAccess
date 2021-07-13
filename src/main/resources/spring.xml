@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util
+ 		http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+    <context:property-placeholder location="classpath:usersData.properties"/>
 
     <bean class="service.impl.UserServiceImpl" id="userService" autowire="constructor"/>
 
@@ -25,7 +33,14 @@
     <bean class="storage.Storage" id="storage"/>
 
     <bean id="testUser" class="model.impl.UserImpl">
-        <constructor-arg name="name" value="Ivan"/>
-        <constructor-arg name="email" value="Email"/>
+        <constructor-arg name="name" value="${user.name}"/>
+        <constructor-arg name="email" value="${user.email}"/>
     </bean>
+
+    <util:map id="users" map-class="java.util.HashMap">
+        <entry key="1" value-ref="testUser"/>
+        <entry key="2" value-ref="testUser"/>
+        <entry key="3" value-ref="testUser"/>
+        <entry key="4" value-ref="testUser"/>
+    </util:map>
 </beans>

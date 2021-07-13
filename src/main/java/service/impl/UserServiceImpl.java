@@ -14,6 +14,11 @@ public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
 
+    /**
+     * Instantiates a new User service.
+     *
+     * @param userDao the user dao
+     */
     public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }

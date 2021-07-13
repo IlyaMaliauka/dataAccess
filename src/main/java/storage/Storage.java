@@ -10,6 +10,11 @@ public class Storage {
 
     private static final Map<String, Object> storage = new HashMap<>();
 
+    /**
+     * Gets storage.
+     *
+     * @return the storage
+     */
     public Map<String, Object> getStorage() {
         return storage;
     }

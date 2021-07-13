@@ -1,8 +1,6 @@
 package model;
 
-import lombok.Data;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The type Event.

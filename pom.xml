@@ -19,7 +19,6 @@
         <log4j.slfj.version>2.14.1</log4j.slfj.version>
         <spring.context.version>5.3.8</spring.context.version>
         <lombok.version>1.18.20</lombok.version>
-        <aspectj.weaver.version>1.9.6</aspectj.weaver.version>
     </properties>
 
     <dependencies>
@@ -64,16 +63,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring.context.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <version>1.0.0.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>${aspectj.weaver.version}</version>
         </dependency>
     </dependencies>
 
