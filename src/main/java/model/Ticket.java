@@ -6,29 +6,75 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * The type Ticket.
  */
-@Data
-public class Ticket {
-
-    private long id;
-    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1000);
-    private long eventId;
-    private long userId;
-    private Category category;
-    private int place;
+public interface Ticket {
 
     /**
-     * Instantiates a new Ticket.
+     * Gets id.
      *
-     * @param eventId  the event id
-     * @param userId   the user id
-     * @param category the category
-     * @param place    the place
+     * @return the id
      */
-    public Ticket(long eventId, long userId, Category category, int place) {
-        this.id = ID_GENERATOR.getAndIncrement();
-        this.eventId = eventId;
-        this.userId = userId;
-        this.category = category;
-        this.place = place;
-    }
+    long getId();
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    void setId(long id);
+
+    /**
+     * Gets event id.
+     *
+     * @return the event id
+     */
+    long getEventId();
+
+    /**
+     * Sets event id.
+     *
+     * @param eventId the event id
+     */
+    void setEventId(long eventId);
+
+    /**
+     * Gets user id.
+     *
+     * @return the user id
+     */
+    long getUserId();
+
+    /**
+     * Sets user id.
+     *
+     * @param userId the user id
+     */
+    void setUserId(long userId);
+
+    /**
+     * Gets category.
+     *
+     * @return the category
+     */
+    Category getCategory();
+
+    /**
+     * Sets category.
+     *
+     * @param category the category
+     */
+    void setCategory(Category category);
+
+    /**
+     * Gets place.
+     *
+     * @return the place
+     */
+    int getPlace();
+
+    /**
+     * Sets place.
+     *
+     * @param place the place
+     */
+    void setPlace(int place);
 }

@@ -23,4 +23,9 @@
     </bean>
 
     <bean class="storage.Storage" id="storage"/>
+
+    <bean id="testUser" class="model.impl.UserImpl">
+        <constructor-arg name="name" value="Ivan"/>
+        <constructor-arg name="email" value="Email"/>
+    </bean>
 </beans>

@@ -7,23 +7,47 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * The type Event.
  */
-@Data
-public class Event {
-
-    private long id;
-    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1000);
-    private String title;
-    private Date date;
+public interface Event {
 
     /**
-     * Instantiates a new Event.
+     * Gets id.
+     *
+     * @return the id
+     */
+    long getId();
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    void setId(long id);
+
+    /**
+     * Gets title.
+     *
+     * @return the title
+     */
+    String getTitle();
+
+    /**
+     * Sets title.
      *
      * @param title the title
-     * @param date  the date
      */
-    public Event(String title, Date date) {
-        this.id = ID_GENERATOR.getAndIncrement();
-        this.title = title;
-        this.date = date;
-    }
+    void setTitle(String title);
+
+    /**
+     * Gets date.
+     *
+     * @return the date
+     */
+    Date getDate();
+
+    /**
+     * Sets date.
+     *
+     * @param date the date
+     */
+    void setDate(Date date);
 }

@@ -1,28 +1,49 @@
 package model;
 
-import lombok.Data;
-import java.util.concurrent.atomic.AtomicInteger;
-
 /**
  * The type User.
  */
-@Data
-public class User {
-
-    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1000);
-    private long id;
-    private String name;
-    private String email;
+public interface User {
 
     /**
-     * Instantiates a new User.
+     * User Id. UNIQUE.
      *
-     * @param name  the name
+     * @return User Id.
+     */
+    long getId();
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    void setId(long id);
+
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
+    String getName();
+
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
+    void setName(String name);
+
+    /**
+     * User email. UNIQUE.
+     *
+     * @return User email.
+     */
+    String getEmail();
+
+    /**
+     * Sets email.
+     *
      * @param email the email
      */
-    public User(String name, String email) {
-        this.id = ID_GENERATOR.getAndIncrement();
-        this.name = name;
-        this.email = email;
-    }
+    void setEmail(String email);
 }
