@@ -1,11 +1,8 @@
 package model;
 
 import lombok.Data;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The type Event.
@@ -13,10 +10,8 @@ import java.util.Date;
 @Data
 public class Event {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1000);
     private String title;
     private Date date;
 
@@ -27,6 +22,7 @@ public class Event {
      * @param date  the date
      */
     public Event(String title, Date date) {
+        this.id = ID_GENERATOR.getAndIncrement();
         this.title = title;
         this.date = date;
     }

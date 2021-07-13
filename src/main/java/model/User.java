@@ -1,10 +1,7 @@
 package model;
 
 import lombok.Data;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The type User.
@@ -12,10 +9,8 @@ import javax.persistence.Id;
 @Data
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1000);
     private long id;
-
     private String name;
     private String email;
 
@@ -26,6 +21,7 @@ public class User {
      * @param email the email
      */
     public User(String name, String email) {
+        this.id = ID_GENERATOR.getAndIncrement();
         this.name = name;
         this.email = email;
     }

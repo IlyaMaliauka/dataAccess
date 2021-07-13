@@ -1,10 +1,7 @@
 package model;
 
 import lombok.Data;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The type Ticket.
@@ -12,10 +9,8 @@ import javax.persistence.Id;
 @Data
 public class Ticket {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1000);
     private long eventId;
     private long userId;
     private Category category;
@@ -30,6 +25,7 @@ public class Ticket {
      * @param place    the place
      */
     public Ticket(long eventId, long userId, Category category, int place) {
+        this.id = ID_GENERATOR.getAndIncrement();
         this.eventId = eventId;
         this.userId = userId;
         this.category = category;
