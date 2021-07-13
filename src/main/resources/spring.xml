@@ -4,28 +4,22 @@
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean class="service.impl.UserServiceImpl" id="userService">
-        <constructor-arg ref="userDao"/>
-    </bean>
+    <bean class="service.impl.UserServiceImpl" id="userService" autowire="constructor"/>
 
     <bean class="dao.impl.UserDaoImpl" id="userDao">
-        <property name="userStorage" ref="storage" />
+        <property name="userStorage" ref="storage"/>
     </bean>
 
-    <bean class="service.impl.EventServiceImpl" id="eventService">
-        <constructor-arg ref="eventDao"/>
-    </bean>
+    <bean class="service.impl.EventServiceImpl" id="eventService" autowire="constructor"/>
 
     <bean class="dao.impl.EventDaoImpl" id="eventDao">
-        <property name="eventStorage" ref="storage" />
+        <property name="eventStorage" ref="storage"/>
     </bean>
 
-    <bean class="service.impl.TicketServiceImpl" id="ticketService">
-        <constructor-arg ref="ticketDao"/>
-    </bean>
+    <bean class="service.impl.TicketServiceImpl" id="ticketService" autowire="constructor"/>
 
     <bean class="dao.impl.TicketDaoImpl" id="ticketDao">
-        <property name="ticketStorage" ref="storage" />
+        <property name="ticketStorage" ref="storage"/>
     </bean>
 
     <bean class="storage.Storage" id="storage"/>

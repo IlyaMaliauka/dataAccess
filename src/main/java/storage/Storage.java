@@ -8,15 +8,9 @@ import java.util.Map;
  */
 public class Storage {
 
-    private static Map<String, Object> instance;
+    private static final Map<String, Object> storage = new HashMap<>();
 
-    private Storage() {
-    }
-
-    public static Map<String, Object> getStorage() {
-        if (instance == null) {
-            instance = new HashMap<>();
-        }
-        return instance;
+    public Map<String, Object> getStorage() {
+        return storage;
     }
 }

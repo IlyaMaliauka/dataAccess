@@ -18,12 +18,7 @@ public class TicketDaoImpl implements TicketDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(TicketDaoImpl.class);
     private static final String STORAGE_PREFIX = "TICKET";
 
-    /**
-     * Instantiates a new Ticket dao.
-     *
-     * @param ticketStorage the storage
-     */
-    public TicketDaoImpl(Storage ticketStorage) {
+    public void setTicketStorage(Storage ticketStorage) {
         this.ticketStorage = ticketStorage;
     }
 
