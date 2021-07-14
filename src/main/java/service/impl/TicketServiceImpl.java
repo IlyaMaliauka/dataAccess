@@ -26,17 +26,17 @@ public class TicketServiceImpl implements TicketService {
     /**
      * Book ticket for a specified event on behalf of specified user.
      *
-     * @param userId   User Id.
-     * @param eventId  Event Id.
+     * @param user   User Id.
+     * @param event  Event Id.
      * @param place    Place number.
      * @param category Service category.
      * @return Booked ticket object.
      * @throws IllegalStateException if this place has already been booked.
      */
     @Override
-    public Ticket bookTicket(long userId, long eventId, int place, Category category) {
-        log.info("Attempting to book new ticket for {} event for user with id {}", eventId, userId);
-        return ticketDao.create(new TicketImpl(eventId, userId, category, place));
+    public Ticket bookTicket(User user, Event event, int place, Category category) {
+        log.info("Attempting to book new ticket for {} event for user with id {}", user.getId(), event.getId());
+        return ticketDao.create(new TicketImpl(event.getId(), user.getId(), category, place));
     }
 
     /**

@@ -75,13 +75,17 @@ public class EventServiceImpl implements EventService {
     /**
      * Updates event using given data.
      *
-     * @param event Event data for update. Should have id set.
+     * @param oldEvent Event data for update. Should have id set.
      * @return Updated Event object.
      */
     @Override
-    public Event updateEvent(Event event) {
-        log.info("Attempting to update event with id {}", event.getId());
-        return eventDao.create(event);
+    public Event updateEvent(Event oldEvent, Event newEvent) {
+        log.info("Attempting to update event with id {}", oldEvent.getId());
+        long oldEventId = oldEvent.getId();
+        eventDao.delete(oldEventId);
+        Event addedEvent = eventDao.create(newEvent);
+        addedEvent.setId(oldEventId);
+        return addedEvent;
     }
 
     /**

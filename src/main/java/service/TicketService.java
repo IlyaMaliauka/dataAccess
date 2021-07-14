@@ -15,14 +15,14 @@ public interface TicketService {
     /**
      * Book ticket for a specified event on behalf of specified user.
      *
-     * @param userId   User Id.
-     * @param eventId  Event Id.
+     * @param user   User Id.
+     * @param event  Event Id.
      * @param place    Place number.
      * @param category Service category.
      * @return Booked ticket object.
      * @throws IllegalStateException if this place has already been booked.
      */
-    Ticket bookTicket(long userId, long eventId, int place, Category category);
+    Ticket bookTicket(User user, Event event, int place, Category category);
 
     /**
      * Get all booked tickets for specified user. Tickets should be sorted by event date in descending order.

@@ -51,10 +51,10 @@ public interface EventService {
     /**
      * Updates event using given data.
      *
-     * @param event Event data for update. Should have id set.
+     * @param oldEvent Event data for update. Should have id set.
      * @return Updated Event object.
      */
-    Event updateEvent(Event event);
+    Event updateEvent(Event oldEvent, Event newEvent);
 
     /**
      * Deletes event by its id.

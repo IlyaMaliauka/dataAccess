@@ -52,7 +52,7 @@ public class BookingTest {
 
     @Test
     public void bookAndCancelTicket() {
-        testTicket = ticketService.bookTicket(testUser.getId(), testEvent.getId(), 35, Category.BAR);
+        testTicket = ticketService.bookTicket(testUser, testEvent, 35, Category.BAR);
         assertThat(ticketService.getBookedTickets(testUser,1, 1)).isEqualTo(1);
         assertThat(ticketService.getBookedTickets(testEvent, 1,1)).isEqualTo(1);
 
