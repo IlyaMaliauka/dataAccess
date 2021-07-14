@@ -38,7 +38,7 @@ public class BookingTest {
 
     @Test
     public void createUser() {
-        testUser = new UserImpl("ivan", "eblan");
+        testUser = new UserImpl("ivan", "ivan@mail.ru");
         userService.createUser(testUser);
         assertThat(testUser).isEqualTo(userService.getUserById(testUser.getId()));
     }
