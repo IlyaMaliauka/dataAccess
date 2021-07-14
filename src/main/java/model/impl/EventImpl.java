@@ -13,7 +13,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class EventImpl implements Event {
 
     private long id;
-    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1000);
     private String title;
     private Date date;
 
@@ -24,7 +23,7 @@ public class EventImpl implements Event {
      * @param date  the date
      */
     public EventImpl(String title, Date date) {
-        this.id = ID_GENERATOR.getAndIncrement();
+        this.id = id++;
         this.title = title;
         this.date = date;
     }

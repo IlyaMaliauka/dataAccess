@@ -13,7 +13,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TicketImpl implements Ticket {
 
     private long id;
-    private static AtomicInteger ID_GENERATOR = new AtomicInteger(0);
     private long eventId;
     private long userId;
     private Category category;
@@ -28,7 +27,7 @@ public class TicketImpl implements Ticket {
      * @param place    the place
      */
     public TicketImpl(long eventId, long userId, Category category, int place) {
-        this.id = ID_GENERATOR.getAndIncrement();
+        this.id = id++;
         this.eventId = eventId;
         this.userId = userId;
         this.category = category;

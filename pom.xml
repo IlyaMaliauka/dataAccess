@@ -19,13 +19,33 @@
         <log4j.slfj.version>2.14.1</log4j.slfj.version>
         <spring.context.version>5.3.8</spring.context.version>
         <lombok.version>1.18.20</lombok.version>
+        <jackson.version>2.11.1</jackson.version>
+        <mockito.version>3.11.1</mockito.version>
+        <assertj.version>3.19.0</assertj.version>
     </properties>
 
     <dependencies>
         <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>

@@ -2,8 +2,6 @@ package dao.impl;
 
 import dao.TicketDao;
 import model.Ticket;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import storage.Storage;
 
 import java.util.ArrayList;
@@ -15,7 +13,6 @@ import java.util.List;
 public class TicketDaoImpl implements TicketDao {
 
     private Storage ticketStorage;
-    private static final Logger LOGGER = LoggerFactory.getLogger(TicketDaoImpl.class);
     private static final String STORAGE_PREFIX = "TICKET";
 
     /**
@@ -39,13 +36,7 @@ public class TicketDaoImpl implements TicketDao {
     @Override
     public boolean delete(long id) {
         String removeKey = STORAGE_PREFIX + id;
-        try {
-            ticketStorage.getStorage().remove(removeKey);
-            return true;
-        } catch (Exception e) {
-            LOGGER.warn("Failed to delete event with id {}", id);
-            return false;
-        }
+        return ticketStorage.getStorage().remove(removeKey) !=null;
     }
 
     @Override

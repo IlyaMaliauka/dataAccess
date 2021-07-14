@@ -1,6 +1,8 @@
 package service.impl;
 
 import dao.UserDao;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import model.User;
 import service.UserService;
 import java.util.List;
@@ -10,18 +12,11 @@ import java.util.stream.Collectors;
 /**
  * The type User service.
  */
+@RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
-
-    /**
-     * Instantiates a new User service.
-     *
-     * @param userDao the user dao
-     */
-    public UserServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
-    }
 
     /**
      * Gets user by its id.
@@ -31,6 +26,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User getUserById(long userId) {
+        log.info("Attempting to get user with id {}", userId);
         return userDao.getUser(userId);
     }
 
@@ -40,9 +36,9 @@ public class UserServiceImpl implements UserService {
      * @param email
      * @return User.
      */
-    //TODO add logging and adequate exception
     @Override
     public User getUserByEmail(String email) {
+        log.info("Attempting to find user with email {}", email);
         return userDao.getAll().stream()
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst().orElseThrow(NoSuchElementException::new);
@@ -59,6 +55,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<User> getUsersByName(String name, int pageSize, int pageNum) {
+        log.info("Attempting to get users with name {}", name);
         return userDao.getAll().stream().filter(user -> user.getName().contains(name)).collect(Collectors.toList());
     }
 
@@ -70,6 +67,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User createUser(User user) {
+        log.info("Attempting to create new user");
         return userDao.create(user);
     }
 
@@ -81,6 +79,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User updateUser(User user) {
+        log.info("Attempting to update user with id {}", user.getId());
         userDao.delete(user.getId());
         return userDao.create(user);
     }
@@ -93,6 +92,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean deleteUser(long userId) {
+        log.info("Attempting to delete user with id {}", userId);
         return userDao.delete(userId);
     }
 }

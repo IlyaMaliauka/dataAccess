@@ -2,8 +2,6 @@ package dao.impl;
 
 import dao.EventDao;
 import model.Event;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import storage.Storage;
 
 import java.util.ArrayList;
@@ -15,7 +13,6 @@ import java.util.List;
 public class EventDaoImpl implements EventDao {
 
     private Storage eventStorage;
-    private static final Logger LOGGER = LoggerFactory.getLogger(EventDaoImpl.class);
     private final String STORAGE_PREFIX = "EVENT";
 
     /**
@@ -39,13 +36,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public boolean delete(long id) {
         String removeKey = STORAGE_PREFIX + id;
-        try {
-            eventStorage.getStorage().remove(removeKey);
-            return true;
-        } catch (Exception e) {
-            LOGGER.warn("Failed to delete event with id {}", id);
-            return false;
-        }
+        return eventStorage.getStorage().remove(removeKey) != null;
     }
 
     @Override

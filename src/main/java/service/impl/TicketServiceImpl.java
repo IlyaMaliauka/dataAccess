@@ -2,11 +2,12 @@ package service.impl;
 
 
 import dao.TicketDao;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import model.Event;
 import model.Ticket;
 import model.User;
 import model.impl.TicketImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import service.TicketService;
 import model.Category;
 
@@ -16,18 +17,11 @@ import java.util.stream.Collectors;
 /**
  * The type Ticket service.
  */
+@RequiredArgsConstructor
+@Slf4j
 public class TicketServiceImpl implements TicketService {
 
     private final TicketDao ticketDao;
-
-    /**
-     * Instantiates a new Ticket service.
-     *
-     * @param ticketDao the ticket dao
-     */
-    public TicketServiceImpl(TicketDao ticketDao) {
-        this.ticketDao = ticketDao;
-    }
 
     /**
      * Book ticket for a specified event on behalf of specified user.
@@ -41,6 +35,7 @@ public class TicketServiceImpl implements TicketService {
      */
     @Override
     public Ticket bookTicket(long userId, long eventId, int place, Category category) {
+        log.info("Attempting to book new ticket for {} event for user with id {}", eventId, userId);
         return ticketDao.create(new TicketImpl(eventId, userId, category, place));
     }
 
@@ -54,6 +49,7 @@ public class TicketServiceImpl implements TicketService {
      */
     @Override
     public List<Ticket> getBookedTickets(User user, int pageSize, int pageNum) {
+        log.info("Attempting to get all tickets of user with id {}", user.getId());
         return ticketDao.getAll().stream().filter(ticket -> ticket.getUserId()== user.getId()).collect(Collectors.toList());
     }
 
@@ -67,6 +63,7 @@ public class TicketServiceImpl implements TicketService {
      */
     @Override
     public List<Ticket> getBookedTickets(Event event, int pageSize, int pageNum) {
+        log.info("Attempting to get all booked tickets for event {}", event);
         return ticketDao.getAll().stream().filter(ticket -> ticket.getEventId()==event.getId()).collect(Collectors.toList());
     }
 
@@ -78,6 +75,7 @@ public class TicketServiceImpl implements TicketService {
      */
     @Override
     public boolean cancelTicket(long ticketId) {
+        log.info("Attempting to cancel ticket with id {}", ticketId);
         return ticketDao.delete(ticketId);
     }
 }

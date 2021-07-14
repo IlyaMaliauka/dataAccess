@@ -2,8 +2,6 @@ package dao.impl;
 
 import dao.UserDao;
 import model.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import storage.Storage;
 
 import java.util.ArrayList;
@@ -15,7 +13,6 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 
     private final String STORAGE_PREFIX = "USER";
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
     private Storage userStorage;
 
     /**
@@ -39,13 +36,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean delete(long id) {
         String removeKey = STORAGE_PREFIX + id;
-        try {
-            userStorage.getStorage().remove(removeKey);
-            return true;
-        } catch (Exception e) {
-            LOGGER.warn("Failed to delete event with id {}", id);
-            return false;
-        }
+        return userStorage.getStorage().remove(removeKey) != null;
     }
 
     @Override

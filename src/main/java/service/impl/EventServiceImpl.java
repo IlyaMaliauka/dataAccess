@@ -1,8 +1,9 @@
 package service.impl;
 
 import dao.EventDao;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import model.Event;
-import org.springframework.beans.factory.annotation.Autowired;
 import service.EventService;
 
 import java.util.Date;
@@ -12,18 +13,11 @@ import java.util.stream.Collectors;
 /**
  * The type Event service.
  */
+@RequiredArgsConstructor
+@Slf4j
 public class EventServiceImpl implements EventService {
 
-    private EventDao eventDao;
-
-    /**
-     * Instantiates a new Event service.
-     *
-     * @param eventDao the event dao
-     */
-    public EventServiceImpl(EventDao eventDao) {
-        this.eventDao = eventDao;
-    }
+    private final EventDao eventDao;
 
     /**
      * Gets event by its id.
@@ -33,6 +27,7 @@ public class EventServiceImpl implements EventService {
      */
     @Override
     public Event getEventById(long eventId) {
+        log.info("Attempting to get event by id {}", eventId);
         return eventDao.get(eventId);
     }
 
@@ -47,6 +42,7 @@ public class EventServiceImpl implements EventService {
      */
     @Override
     public List<Event> getEventsByTitle(String title, int pageSize, int pageNum) {
+        log.info("Attempting to get all events by title {}", title);
         return eventDao.getAll().stream().filter(event -> event.getTitle().contains(title)).collect(Collectors.toList());
     }
 
@@ -61,6 +57,7 @@ public class EventServiceImpl implements EventService {
      */
     @Override
     public List<Event> getEventsForDay(Date day, int pageSize, int pageNum) {
+        log.info("Attempting to get all the events for day {}", day.toString());
         return eventDao.getAll().stream().filter(event -> event.getDate().equals(day)).collect(Collectors.toList());
     }
 
@@ -71,6 +68,7 @@ public class EventServiceImpl implements EventService {
      */
     @Override
     public Event create(Event event) {
+        log.info("Attempting to create new event with name {}", event.getTitle());
         return eventDao.create(event);
     }
 
@@ -82,6 +80,7 @@ public class EventServiceImpl implements EventService {
      */
     @Override
     public Event updateEvent(Event event) {
+        log.info("Attempting to update event with id {}", event.getId());
         return eventDao.create(event);
     }
 
@@ -93,6 +92,7 @@ public class EventServiceImpl implements EventService {
      */
     @Override
     public boolean delete(long eventId) {
+        log.info("Attempting to delete event with id {}", eventId);
         return eventDao.delete(eventId);
     }
 }
