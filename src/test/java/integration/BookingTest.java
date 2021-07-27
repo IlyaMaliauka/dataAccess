@@ -1,19 +1,23 @@
 package integration;
 
-import model.Category;
-import model.Event;
-import model.Ticket;
-import model.User;
-import model.impl.EventImpl;
-import model.impl.TicketImpl;
-import model.impl.UserImpl;
+import com.epam.training.config.SpringConfig;
+import com.epam.training.model.Category;
+import com.epam.training.model.Event;
+import com.epam.training.model.Ticket;
+import com.epam.training.model.User;
+import com.epam.training.model.impl.EventImpl;
+import com.epam.training.model.impl.UserImpl;
+import com.epam.training.service.EventService;
+import com.epam.training.service.TicketService;
+import com.epam.training.service.UserService;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import service.impl.EventServiceImpl;
-import service.impl.TicketServiceImpl;
-import service.impl.UserServiceImpl;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import com.epam.training.service.impl.EventServiceImpl;
+import com.epam.training.service.impl.TicketServiceImpl;
+import com.epam.training.service.impl.UserServiceImpl;
 
 import java.util.Date;
 
@@ -21,19 +25,19 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class BookingTest {
 
-    private static UserServiceImpl userService;
-    private static TicketServiceImpl ticketService;
-    private static EventServiceImpl eventService;
+    private static UserService userService;
+    private static TicketService ticketService;
+    private static EventService eventService;
     private static User testUser;
     private static Event testEvent;
     private static Ticket testTicket;
 
     @BeforeClass
     public static void init() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
-        userService = context.getBean("userService", UserServiceImpl.class);
-        ticketService = context.getBean("ticketService", TicketServiceImpl.class);
-        eventService = context.getBean("eventService", EventServiceImpl.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
+        userService = context.getBean(UserServiceImpl.class);
+        ticketService = context.getBean(TicketServiceImpl.class);
+        eventService = context.getBean(EventServiceImpl.class);
     }
 
     @Test

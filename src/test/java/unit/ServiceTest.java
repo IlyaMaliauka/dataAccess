@@ -1,19 +1,19 @@
 package unit;
 
-import model.Category;
-import model.Event;
-import model.Ticket;
-import model.User;
-import model.impl.EventImpl;
-import model.impl.TicketImpl;
-import model.impl.UserImpl;
+import com.epam.training.model.Category;
+import com.epam.training.model.Event;
+import com.epam.training.model.Ticket;
+import com.epam.training.model.User;
+import com.epam.training.model.impl.EventImpl;
+import com.epam.training.model.impl.TicketImpl;
+import com.epam.training.model.impl.UserImpl;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import service.impl.EventServiceImpl;
-import service.impl.TicketServiceImpl;
-import service.impl.UserServiceImpl;
+import com.epam.training.service.impl.EventServiceImpl;
+import com.epam.training.service.impl.TicketServiceImpl;
+import com.epam.training.service.impl.UserServiceImpl;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
