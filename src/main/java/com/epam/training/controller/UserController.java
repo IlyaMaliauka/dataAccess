@@ -20,14 +20,31 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    public ModelAndView createUser(@RequestParam(required = false) String name,
-                                   @RequestParam(required = false) String email) {
-        ModelAndView modelAndView = new ModelAndView("entities");
-        User user = new UserImpl(name, email);
+    @GetMapping()
+    public ModelAndView getUsers() {
+        ModelAndView modelAndView = new ModelAndView("users/users");
+        modelAndView.addObject("message", "All existing users: ");
+        return modelAndView;
+    }
 
-        modelAndView.addObject("entities", user);
-        modelAndView.addObject("message", "create entities");
+    @GetMapping("/new")
+    public String newUser(@ModelAttribute("user") UserImpl user) {
+        return "users/new";
+    }
+
+    @GetMapping("/delete")
+    public String deleteUser(@ModelAttribute("user") UserImpl user) {
+        return "users/delete";
+    }
+
+    @PostMapping()
+    public ModelAndView createUser(@ModelAttribute("user") UserImpl user) {
+        ModelAndView modelAndView = new ModelAndView("users/users");
+        userService.createUser(user);
+
+        modelAndView.addObject("users", user);
+        modelAndView.addObject("message", String.format
+                ("Successfully created new user with name %s and email %s. Created user id : %s", user.getName(), user.getEmail(), user.getId()));
         return modelAndView;
     }
 
@@ -49,15 +66,14 @@ public class UserController {
         return modelAndView;
     }
 
-    @DeleteMapping("/{id}")
-    public ModelAndView deleteUser(@PathVariable long id) {
-        ModelAndView modelAndView = new ModelAndView("entities");
-        boolean isDeleted = userService.deleteUser(id);
-        if (isDeleted) {
-            modelAndView.addObject("message", "delete entities");
-        } else {
-            modelAndView.addObject("message", "not found entity");
-        }
+    @DeleteMapping()
+    public ModelAndView deleteUserFromDatabase(@ModelAttribute("user") UserImpl userToDelete) {
+        ModelAndView modelAndView = new ModelAndView("users/users");
+        userService.deleteUser(userToDelete.getId());
+
+        modelAndView.addObject("users", userToDelete);
+        modelAndView.addObject("message", String.format
+                ("Successfully deleted user with id %s", userToDelete.getId()));
         return modelAndView;
     }
 
@@ -67,24 +83,24 @@ public class UserController {
         User user = userService.getUserById(id);
         if (Objects.nonNull(user)) {
             modelAndView.addObject("entities", user);
-            modelAndView.addObject("message", "found entity");
+            modelAndView.addObject("message", String.format("Successfully found a user with id %s", id));
         } else {
-            modelAndView.addObject("message", "not found entity");
+            modelAndView.addObject("message", String.format("Failed to find a user with id %s", id));
         }
         return modelAndView;
     }
 
     @GetMapping("/name/{name}")
     public ModelAndView getUsersByName(@PathVariable String name,
-                                       @RequestParam(required = false, defaultValue = "100") int pageSize,
+                                       @RequestParam(required = false, defaultValue = "25") int pageSize,
                                        @RequestParam(required = false, defaultValue = "1") int pageNum) {
         ModelAndView modelAndView = new ModelAndView("entities");
         List<User> users = userService.getUsersByName(name, pageSize, pageNum);
         if (!users.isEmpty()) {
             modelAndView.addObject("entities", users);
-            modelAndView.addObject("message", "found entity");
+            modelAndView.addObject("message", String.format("Successfully found a user with name %s", name));
         } else {
-            modelAndView.addObject("message", "not found entity");
+            modelAndView.addObject("message", String.format("Failed to find a user with name %s", name));
         }
         return modelAndView;
     }
