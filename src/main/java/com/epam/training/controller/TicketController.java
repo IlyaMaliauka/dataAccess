@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.epam.training.util.Constant.*;
+
 @Slf4j
 @Controller
 @RequestMapping("/tickets")
@@ -32,43 +34,43 @@ public class TicketController {
                                    @RequestParam long eventId,
                                    @RequestParam int place,
                                    @RequestParam Category category) {
-        ModelAndView modelAndView = new ModelAndView("entities");
+        ModelAndView modelAndView = new ModelAndView("tickets/tickets");
         User user = userService.getUserById(userId);
         Event event = eventService.getEventById(eventId);
         if (Objects.nonNull(event) && Objects.nonNull(user)) {
             Ticket ticket = ticketService.bookTicket(user, event, place, category);
-            modelAndView.addObject("entities", ticket);
-            modelAndView.addObject("message", "ticket booked");
+            modelAndView.addObject("tickets", ticket);
+            modelAndView.addObject(MESSAGE, SUCCESSFUL_CREATION_MESSAGE);
         } else {
-            modelAndView.addObject("message", "ticket not booked");
+            modelAndView.addObject(MESSAGE, "Failed to book a ticket");
         }
         return modelAndView;
     }
 
-    @GetMapping(value = "/{entity}/{id}")
+    @GetMapping(value = "/{ticket}/{id}")
     public ModelAndView getBookedTickets(@PathVariable long id,
                                          @PathVariable String entity,
                                          @RequestParam(required = false, defaultValue = "100") int pageSize,
                                          @RequestParam(required = false, defaultValue = "1") int pageNum) {
-        ModelAndView modelAndView = new ModelAndView("entities");
+        ModelAndView modelAndView = new ModelAndView("tickets");
         List<Ticket> tickets = getTickets(id, entity, pageSize, pageNum);
         if (!tickets.isEmpty()) {
-            modelAndView.addObject("entities", tickets);
-            modelAndView.addObject("message", "found entity");
+            modelAndView.addObject("tickets", tickets);
+            modelAndView.addObject(MESSAGE, SUCCESSFUL_SEARCH_MESSAGE);
         } else {
-            modelAndView.addObject("message", "not found entity");
+            modelAndView.addObject(MESSAGE, FAILED_SEARCH_MESSAGE);
         }
         return modelAndView;
     }
 
     @DeleteMapping("/{id}")
     public ModelAndView cancelTicket(@PathVariable long id) {
-        ModelAndView modelAndView = new ModelAndView("entities");
+        ModelAndView modelAndView = new ModelAndView("tickets");
         boolean isDeleted = ticketService.cancelTicket(id);
         if (isDeleted) {
-            modelAndView.addObject("message", "delete entity");
+            modelAndView.addObject(MESSAGE, SUCCESSFUL_SEARCH_MESSAGE);
         } else {
-            modelAndView.addObject("message", "not found entity");
+            modelAndView.addObject(MESSAGE, FAILED_SEARCH_MESSAGE);
         }
         return modelAndView;
     }
@@ -85,5 +87,4 @@ public class TicketController {
         }
         return tickets;
     }
-
 }

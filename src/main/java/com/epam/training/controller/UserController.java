@@ -1,5 +1,6 @@
 package com.epam.training.controller;
 
+import com.epam.training.dao.UserDao;
 import com.epam.training.model.impl.UserImpl;
 import lombok.extern.slf4j.Slf4j;
 import com.epam.training.model.User;
@@ -12,6 +13,8 @@ import com.epam.training.service.UserService;
 import java.util.List;
 import java.util.Objects;
 
+import static com.epam.training.util.Constant.*;
+
 @Slf4j
 @Controller
 @RequestMapping("/users")
@@ -20,10 +23,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserDao userDao;
+
     @GetMapping()
     public ModelAndView getUsers() {
         ModelAndView modelAndView = new ModelAndView("users/users");
-        modelAndView.addObject("message", "All existing users: ");
+        modelAndView.addObject(MESSAGE, "All existing users: ");
+        modelAndView.addObject("users", userDao.getAll());
         return modelAndView;
     }
 
@@ -37,13 +44,13 @@ public class UserController {
         return "users/delete";
     }
 
-    @PostMapping()
+    @PostMapping
     public ModelAndView createUser(@ModelAttribute("user") UserImpl user) {
         ModelAndView modelAndView = new ModelAndView("users/users");
         userService.createUser(user);
 
-        modelAndView.addObject("users", user);
-        modelAndView.addObject("message", String.format
+        modelAndView.addObject("users", userDao.getAll());
+        modelAndView.addObject(MESSAGE, String.format
                 ("Successfully created new user with name %s and email %s. Created user id : %s", user.getName(), user.getEmail(), user.getId()));
         return modelAndView;
     }
@@ -59,9 +66,9 @@ public class UserController {
             user.setEmail(email);
             user = userService.updateUser(user);
             modelAndView.addObject("entities", user);
-            modelAndView.addObject("message", "update entities");
+            modelAndView.addObject(MESSAGE, SUCCESSFUL_UPDATE_MESSAGE);
         } else {
-            modelAndView.addObject("message", "not found entity");
+            modelAndView.addObject(MESSAGE, FAILED_SEARCH_MESSAGE);
         }
         return modelAndView;
     }
@@ -72,8 +79,7 @@ public class UserController {
         userService.deleteUser(userToDelete.getId());
 
         modelAndView.addObject("users", userToDelete);
-        modelAndView.addObject("message", String.format
-                ("Successfully deleted user with id %s", userToDelete.getId()));
+        modelAndView.addObject(MESSAGE, SUCCESSFUL_DELETION_MESSAGE);
         return modelAndView;
     }
 
@@ -83,9 +89,9 @@ public class UserController {
         User user = userService.getUserById(id);
         if (Objects.nonNull(user)) {
             modelAndView.addObject("entities", user);
-            modelAndView.addObject("message", String.format("Successfully found a user with id %s", id));
+            modelAndView.addObject(MESSAGE, String.format(SUCCESSFUL_SEARCH_MESSAGE + "by id: %s", id));
         } else {
-            modelAndView.addObject("message", String.format("Failed to find a user with id %s", id));
+            modelAndView.addObject(MESSAGE, String.format(FAILED_SEARCH_MESSAGE + "by id: %s", id));
         }
         return modelAndView;
     }
@@ -98,9 +104,9 @@ public class UserController {
         List<User> users = userService.getUsersByName(name, pageSize, pageNum);
         if (!users.isEmpty()) {
             modelAndView.addObject("entities", users);
-            modelAndView.addObject("message", String.format("Successfully found a user with name %s", name));
+            modelAndView.addObject(MESSAGE, String.format(SUCCESSFUL_SEARCH_MESSAGE + "by name %s", name));
         } else {
-            modelAndView.addObject("message", String.format("Failed to find a user with name %s", name));
+            modelAndView.addObject("message", String.format(FAILED_SEARCH_MESSAGE + "by name %s", name));
         }
         return modelAndView;
     }
@@ -111,9 +117,9 @@ public class UserController {
         User user = userService.getUserByEmail(email);
         if (Objects.nonNull(user)) {
             modelAndView.addObject("entities", user);
-            modelAndView.addObject("message", "found entity");
+            modelAndView.addObject(MESSAGE, SUCCESSFUL_SEARCH_MESSAGE);
         } else {
-            modelAndView.addObject("message", "not found entity");
+            modelAndView.addObject(MESSAGE, FAILED_SEARCH_MESSAGE);
         }
         return modelAndView;
     }

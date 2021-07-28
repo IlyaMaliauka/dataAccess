@@ -1,4 +1,4 @@
-package integration;
+package com.epam.training.integration;
 
 import com.epam.training.config.SpringConfig;
 import com.epam.training.model.Category;

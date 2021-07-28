@@ -1,4 +1,4 @@
-package unit;
+package com.epam.training.unit;
 
 import com.epam.training.model.Category;
 import com.epam.training.model.Event;
