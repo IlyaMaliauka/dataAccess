@@ -1,10 +1,10 @@
 package com.epam.training.controller;
 
-import lombok.extern.slf4j.Slf4j;
-import com.epam.training.model.Category;
 import com.epam.training.model.Event;
 import com.epam.training.model.Ticket;
 import com.epam.training.model.User;
+import lombok.extern.slf4j.Slf4j;
+import com.epam.training.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

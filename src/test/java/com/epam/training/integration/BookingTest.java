@@ -5,14 +5,11 @@ import com.epam.training.model.Category;
 import com.epam.training.model.Event;
 import com.epam.training.model.Ticket;
 import com.epam.training.model.User;
-import com.epam.training.model.impl.EventImpl;
-import com.epam.training.model.impl.UserImpl;
 import com.epam.training.service.EventService;
 import com.epam.training.service.TicketService;
 import com.epam.training.service.UserService;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import com.epam.training.service.impl.EventServiceImpl;
@@ -42,14 +39,14 @@ public class BookingTest {
 
     @Test
     public void createUser() {
-        testUser = new UserImpl("ivan", "ivan@mail.ru");
+        testUser = new User("ivan", "ivan@mail.ru");
         userService.createUser(testUser);
         assertThat(testUser).isEqualTo(userService.getUserById(testUser.getId()));
     }
 
     @Test
     public void createEvent() {
-        testEvent = new EventImpl("Swan Lake", new Date());
+        testEvent = new Event("Swan Lake", new Date());
         eventService.create(testEvent);
         assertThat(testEvent.getTitle()).isEqualTo("Swan Lake");
     }

@@ -1,77 +1,41 @@
 package com.epam.training.model;
 
+import lombok.Data;
+import com.epam.training.model.Category;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * The type Ticket.
  */
-public interface Ticket {
+@Data
+@Entity
+public class Ticket {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    private long eventId;
+    private long userId;
+    private Category category;
+    private int place;
 
     /**
-     * Gets id.
+     * Instantiates a new Ticket.
      *
-     * @return the id
-     */
-    long getId();
-
-    /**
-     * Sets id.
-     *
-     * @param id the id
-     */
-    void setId(long id);
-
-    /**
-     * Gets event id.
-     *
-     * @return the event id
-     */
-    long getEventId();
-
-    /**
-     * Sets event id.
-     *
-     * @param eventId the event id
-     */
-    void setEventId(long eventId);
-
-    /**
-     * Gets user id.
-     *
-     * @return the user id
-     */
-    long getUserId();
-
-    /**
-     * Sets user id.
-     *
-     * @param userId the user id
-     */
-    void setUserId(long userId);
-
-    /**
-     * Gets category.
-     *
-     * @return the category
-     */
-    Category getCategory();
-
-    /**
-     * Sets category.
-     *
+     * @param eventId  the event id
+     * @param userId   the user id
      * @param category the category
+     * @param place    the place
      */
-    void setCategory(Category category);
-
-    /**
-     * Gets place.
-     *
-     * @return the place
-     */
-    int getPlace();
-
-    /**
-     * Sets place.
-     *
-     * @param place the place
-     */
-    void setPlace(int place);
+    public Ticket(long eventId, long userId, Category category, int place) {
+        this.eventId = eventId;
+        this.userId = userId;
+        this.category = category;
+        this.place = place;
+    }
 }

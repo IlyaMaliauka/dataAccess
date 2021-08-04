@@ -9,20 +9,10 @@ import java.util.List;
  */
 public interface UserService {
 
-    /**
-     * Gets user by its id.
-     *
-     * @param userId the user id
-     * @return User. user by id
-     */
+    List<User> getAllUsers();
+
     User getUserById(long userId);
 
-    /**
-     * Gets user by its email. Email is strictly matched.
-     *
-     * @param email the email
-     * @return User. user by email
-     */
     User getUserByEmail(String email);
 
     /**

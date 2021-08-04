@@ -4,9 +4,6 @@ import com.epam.training.model.Category;
 import com.epam.training.model.Event;
 import com.epam.training.model.Ticket;
 import com.epam.training.model.User;
-import com.epam.training.model.impl.EventImpl;
-import com.epam.training.model.impl.TicketImpl;
-import com.epam.training.model.impl.UserImpl;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,15 +29,15 @@ public class ServiceTest {
         userService = Mockito.mock(UserServiceImpl.class);
         eventService = Mockito.mock(EventServiceImpl.class);
         ticketService = Mockito.mock(TicketServiceImpl.class);
-        testUser = new UserImpl("Ivan", "ivan@mail.ru");
-        testEvent = new EventImpl("Swan Lake", new Date());
-        testTicket = new TicketImpl(testEvent.getId(), testUser.getId(), Category.BAR, 5);
+        testUser = new User("Ivan", "ivan@mail.ru");
+        testEvent = new Event("Swan Lake", new Date());
+        testTicket = new Ticket(testEvent.getId(), testUser.getId(), Category.BAR, 5);
     }
 
     @Test
     public void createUserTest() {
         Mockito.when(userService.createUser(testUser)).thenReturn(testUser);
-        Mockito.when(userService.getUserById(0)).thenReturn(testUser);
+        Mockito.when(userService.getUserById(0)).thenReturn((User) testUser);
         User actualUser = userService.createUser(testUser);
         SoftAssertions userAssertions = new SoftAssertions();
         userAssertions.assertThat(actualUser).isEqualTo(userService.getUserById(0));
@@ -51,7 +48,7 @@ public class ServiceTest {
 
     @Test
     public void updateEventTest() {
-        EventImpl updatedEvent = new EventImpl("The Nutcracker", new Date());
+        Event updatedEvent = new Event("The Nutcracker", new Date());
         Mockito.when(eventService.updateEvent(testEvent, updatedEvent)).thenReturn(updatedEvent);
         Mockito.when(eventService.getEventById(0)).thenReturn(testEvent);
         assertThat(eventService.getEventById(0).getTitle())

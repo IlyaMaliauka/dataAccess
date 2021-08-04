@@ -1,9 +1,7 @@
 package com.epam.training.controller;
 
-import com.epam.training.dao.EventDao;
-import com.epam.training.model.impl.EventImpl;
-import lombok.extern.slf4j.Slf4j;
 import com.epam.training.model.Event;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,28 +22,25 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @Autowired
-    private EventDao eventDao;
-
     @GetMapping()
     public ModelAndView getEvents() {
-        ModelAndView modelAndView = new ModelAndView("users/users");
+        ModelAndView modelAndView = new ModelAndView("events/events");
         modelAndView.addObject(MESSAGE, "All events: ");
-        modelAndView.addObject("events", eventDao.getAll());
+        modelAndView.addObject("events", eventService.getAllEvents());
         return modelAndView;
     }
 
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("event") EventImpl event) {
+    public String newUser(@ModelAttribute("event") Event event) {
         return "events/new";
     }
 
     @PostMapping
-    public ModelAndView createUser(@ModelAttribute("event") EventImpl event) {
+    public ModelAndView createUser(@ModelAttribute("event") Event event) {
         ModelAndView modelAndView = new ModelAndView("users/users");
         eventService.create(event);
 
-        modelAndView.addObject("users", eventDao.getAll());
+        modelAndView.addObject("users", eventService.getAllEvents());
         modelAndView.addObject(MESSAGE, String.format
                 ("Successfully created new event with title %s and date %s. Created event id : %s", event.getTitle(), event.getDate(), event.getId()));
         return modelAndView;
@@ -58,7 +53,7 @@ public class EventController {
         ModelAndView modelAndView = new ModelAndView("entities");
         Event oldEvent = eventService.getEventById(id);
         if (Objects.nonNull(oldEvent)) {
-            Event newEvent = new EventImpl(title, parseDate(date));
+            Event newEvent = new Event(title, parseDate(date));
             newEvent = eventService.updateEvent(oldEvent, newEvent);
             modelAndView.addObject("entities", newEvent);
             modelAndView.addObject(MESSAGE, SUCCESSFUL_UPDATE_MESSAGE);
@@ -86,10 +81,8 @@ public class EventController {
         Event event = eventService.getEventById(id);
         if (Objects.nonNull(event)) {
             modelAndView.addObject("entities", event);
-            modelAndView.addObject(MESSAGE, SUCCESSFUL_SEARCH_MESSAGE);
-        } else {
-            modelAndView.addObject(MESSAGE, SUCCESSFUL_SEARCH_MESSAGE);
         }
+        modelAndView.addObject(MESSAGE, SUCCESSFUL_SEARCH_MESSAGE);
         return modelAndView;
     }
 

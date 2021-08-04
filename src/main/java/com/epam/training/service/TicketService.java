@@ -1,9 +1,9 @@
 package com.epam.training.service;
 
+import com.epam.training.model.Category;
 import com.epam.training.model.Event;
 import com.epam.training.model.Ticket;
 import com.epam.training.model.User;
-import com.epam.training.model.Category;
 
 import java.util.List;
 
