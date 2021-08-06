@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 @EnableJpaRepositories(
         basePackages = {"com.epam.training.repository"}
 )
-public class HibernateConfig {
+public class DbConfig {
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -39,7 +39,7 @@ public class HibernateConfig {
         return em;
     }
 
-    Properties additionalProperties() {
+    private Properties additionalProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
@@ -47,10 +47,6 @@ public class HibernateConfig {
         return properties;
     }
 
-    @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
-        return new PersistenceExceptionTranslationPostProcessor();
-    }
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {

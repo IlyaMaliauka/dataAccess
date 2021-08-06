@@ -3,7 +3,7 @@ package com.epam.training.unit;
 import com.epam.training.model.Category;
 import com.epam.training.model.Event;
 import com.epam.training.model.Ticket;
-import com.epam.training.model.User;
+import com.epam.training.model.UserEntity;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class ServiceTest {
     private static UserServiceImpl userService;
     private static EventServiceImpl eventService;
     private static TicketServiceImpl ticketService;
-    private static User testUser;
+    private static UserEntity testUser;
     private static Event testEvent;
     private static Ticket testTicket;
 
@@ -29,7 +29,7 @@ public class ServiceTest {
         userService = Mockito.mock(UserServiceImpl.class);
         eventService = Mockito.mock(EventServiceImpl.class);
         ticketService = Mockito.mock(TicketServiceImpl.class);
-        testUser = new User("Ivan", "ivan@mail.ru");
+        testUser = new UserEntity("Ivan", "ivan@mail.ru");
         testEvent = new Event("Swan Lake", new Date());
         testTicket = new Ticket(testEvent.getId(), testUser.getId(), Category.BAR, 5);
     }
@@ -37,8 +37,8 @@ public class ServiceTest {
     @Test
     public void createUserTest() {
         Mockito.when(userService.createUser(testUser)).thenReturn(testUser);
-        Mockito.when(userService.getUserById(0)).thenReturn((User) testUser);
-        User actualUser = userService.createUser(testUser);
+        Mockito.when(userService.getUserById(0)).thenReturn((UserEntity) testUser);
+        UserEntity actualUser = userService.createUser(testUser);
         SoftAssertions userAssertions = new SoftAssertions();
         userAssertions.assertThat(actualUser).isEqualTo(userService.getUserById(0));
         userAssertions.assertThat(actualUser.getName()).isEqualTo("Ivan");

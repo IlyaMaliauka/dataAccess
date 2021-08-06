@@ -1,18 +1,20 @@
 package com.epam.training.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * The type User.
  */
 @Entity
 @Data
-public class User {
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "users", schema = "public")
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +23,7 @@ public class User {
     private String name;
     private String email;
 
-    public User(String name, String email) {
+    public UserEntity(String name, String email) {
         this.name = name;
         this.email = email;
     }

@@ -1,13 +1,16 @@
 package com.epam.training.controller;
 
-import com.epam.training.model.User;
+import com.epam.training.model.UserEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import com.epam.training.service.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,67 +24,59 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping()
-    public ModelAndView getUsers() {
-        ModelAndView modelAndView = new ModelAndView("users/users");
-        modelAndView.addObject(MESSAGE, "All existing users: ");
-        modelAndView.addObject("users", userService.getAllUsers());
-        return modelAndView;
+    @GetMapping("/index")
+    public String showUserList(Model model) {
+        model.addAttribute("users", userService.getAllUsers());
+        return "users/index";
     }
 
-    @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user) {
-        return "users/new";
+    @GetMapping("/signup")
+    public String showSignUpForm(@ModelAttribute("user") UserEntity user) {
+        return "users/add-user";
     }
 
-    @GetMapping("/delete")
-    public String deleteUser(@ModelAttribute("user") User user) {
-        return "users/delete";
-    }
-
-    @PostMapping
-    public ModelAndView createUser(@ModelAttribute("user") User user) {
-        ModelAndView modelAndView = new ModelAndView("users/users");
-        userService.createUser(user);
-
-        modelAndView.addObject("users", userService.getAllUsers());
-        modelAndView.addObject(MESSAGE, String.format
-                ("Successfully created new user with name %s and email %s. Created user id : %s", user.getName(), user.getEmail(), user.getId()));
-        return modelAndView;
-    }
-
-    @PutMapping("/{id}")
-    public ModelAndView updateUser(@PathVariable long id,
-                                   @RequestParam(required = false) String name,
-                                   @RequestParam(required = false) String email) {
-        ModelAndView modelAndView = new ModelAndView("entities");
-        User user = userService.getUserById(id);
-        if (Objects.nonNull(user)) {
-            user.setName(name);
-            user.setEmail(email);
-            user = userService.updateUser(user);
-            modelAndView.addObject("entities", user);
-            modelAndView.addObject(MESSAGE, SUCCESSFUL_UPDATE_MESSAGE);
-        } else {
-            modelAndView.addObject(MESSAGE, FAILED_SEARCH_MESSAGE);
+    @PostMapping("/adduser")
+    public String addUser(@Valid UserEntity user, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "users/add-user";
         }
-        return modelAndView;
+
+        userService.createUser(user);
+        return "redirect:/users/index";
     }
 
-    @DeleteMapping()
-    public ModelAndView deleteUserFromDatabase(@ModelAttribute("user") User userToDelete) {
-        ModelAndView modelAndView = new ModelAndView("users/users");
-        userService.deleteUser(userToDelete.getId());
 
-        modelAndView.addObject("users", userToDelete);
-        modelAndView.addObject(MESSAGE, SUCCESSFUL_DELETION_MESSAGE);
-        return modelAndView;
+    @GetMapping("/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") long id, Model model) {
+        UserEntity user = userService.getUserById(id);
+
+        model.addAttribute("user", user);
+        return "users/update-user";
+    }
+
+
+    @PostMapping("/update/{id}")
+    public String updateUser(@PathVariable("id") long id, @Valid UserEntity user,
+                             BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            user.setId(id);
+            return "users/update-user";
+        }
+
+        userService.createUser(user);
+        return "redirect:/users/index";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteUser(@PathVariable("id") long id, Model model) {
+        userService.deleteUser(id);
+        return "redirect:/users/index";
     }
 
     @GetMapping("/{id}")
     public ModelAndView getUserById(@PathVariable long id) {
         ModelAndView modelAndView = new ModelAndView("entities");
-        User user = userService.getUserById(id);
+        UserEntity user = userService.getUserById(id);
         if (Objects.nonNull(user)) {
             modelAndView.addObject("entities", user);
             modelAndView.addObject(MESSAGE, String.format(SUCCESSFUL_SEARCH_MESSAGE + "by id: %s", id));
@@ -96,7 +91,7 @@ public class UserController {
                                        @RequestParam(required = false, defaultValue = "25") int pageSize,
                                        @RequestParam(required = false, defaultValue = "1") int pageNum) {
         ModelAndView modelAndView = new ModelAndView("entities");
-        List<User> users = userService.getUsersByName(name, pageSize, pageNum);
+        List<UserEntity> users = userService.getUsersByName(name, pageSize, pageNum);
         if (!users.isEmpty()) {
             modelAndView.addObject("entities", users);
             modelAndView.addObject(MESSAGE, String.format(SUCCESSFUL_SEARCH_MESSAGE + "by name %s", name));
@@ -109,7 +104,7 @@ public class UserController {
     @GetMapping("/email/{email}")
     public ModelAndView getUsersByEmail(@PathVariable String email) {
         ModelAndView modelAndView = new ModelAndView("entities");
-        User user = userService.getUserByEmail(email);
+        UserEntity user = userService.getUserByEmail(email);
         if (Objects.nonNull(user)) {
             modelAndView.addObject("entities", user);
             modelAndView.addObject(MESSAGE, SUCCESSFUL_SEARCH_MESSAGE);

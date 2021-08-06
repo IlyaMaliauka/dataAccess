@@ -2,7 +2,7 @@ package com.epam.training.controller;
 
 import com.epam.training.model.Event;
 import com.epam.training.model.Ticket;
-import com.epam.training.model.User;
+import com.epam.training.model.UserEntity;
 import lombok.extern.slf4j.Slf4j;
 import com.epam.training.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class TicketController {
                                    @RequestParam int place,
                                    @RequestParam Category category) {
         ModelAndView modelAndView = new ModelAndView("tickets/tickets");
-        User user = userService.getUserById(userId);
+        UserEntity user = userService.getUserById(userId);
         Event event = eventService.getEventById(eventId);
         if (Objects.nonNull(event) && Objects.nonNull(user)) {
             Ticket ticket = ticketService.bookTicket(user, event, place, category);
@@ -78,7 +78,7 @@ public class TicketController {
     private List<Ticket> getTickets(long id, String entity, int pageSize, int pageNum) {
         List<Ticket> tickets = new ArrayList<>();
         if ("users".equalsIgnoreCase(entity)) {
-            User user = userService.getUserById(id);
+            UserEntity user = userService.getUserById(id);
             tickets = ticketService.getBookedTickets(user, pageSize, pageNum);
         }
         if ("events".equalsIgnoreCase(entity)) {

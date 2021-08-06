@@ -3,10 +3,15 @@ package com.epam.training.controller;
 import com.epam.training.model.Event;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import com.epam.training.service.EventService;
+
+import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -22,57 +27,50 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @GetMapping()
-    public ModelAndView getEvents() {
-        ModelAndView modelAndView = new ModelAndView("events/events");
-        modelAndView.addObject(MESSAGE, "All events: ");
-        modelAndView.addObject("events", eventService.getAllEvents());
-        return modelAndView;
+    @GetMapping("/index")
+    public String showEventList(Model model) {
+        model.addAttribute("events", eventService.getAllEvents());
+        return "events/index";
     }
 
-    @GetMapping("/new")
-    public String newUser(@ModelAttribute("event") Event event) {
-        return "events/new";
+    @GetMapping("/signup")
+    public String showSignUpForm(@ModelAttribute("event") Event event) {
+        return "events/add-event";
     }
 
-    @PostMapping
-    public ModelAndView createUser(@ModelAttribute("event") Event event) {
-        ModelAndView modelAndView = new ModelAndView("users/users");
-        eventService.create(event);
+    @PostMapping("/addevent")
+    public String addEvent(@RequestParam("title") String title,
+                           @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
 
-        modelAndView.addObject("users", eventService.getAllEvents());
-        modelAndView.addObject(MESSAGE, String.format
-                ("Successfully created new event with title %s and date %s. Created event id : %s", event.getTitle(), event.getDate(), event.getId()));
-        return modelAndView;
+        eventService.create(new Event(title, date));
+        return "redirect:/events/index";
     }
 
-    @PutMapping("/{id}")
-    public ModelAndView updateEvent(@PathVariable long id,
-                                    @RequestParam(required = false) String title,
-                                    @RequestParam(required = false) String date) {
-        ModelAndView modelAndView = new ModelAndView("entities");
-        Event oldEvent = eventService.getEventById(id);
-        if (Objects.nonNull(oldEvent)) {
-            Event newEvent = new Event(title, parseDate(date));
-            newEvent = eventService.updateEvent(oldEvent, newEvent);
-            modelAndView.addObject("entities", newEvent);
-            modelAndView.addObject(MESSAGE, SUCCESSFUL_UPDATE_MESSAGE);
-        } else {
-            modelAndView.addObject(MESSAGE, FAILED_SEARCH_MESSAGE);
-        }
-        return modelAndView;
+
+    @GetMapping("/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") long id, Model model) {
+        Event event = eventService.getEventById(id);
+
+        model.addAttribute("event", event);
+        return "events/update-event";
     }
 
-    @DeleteMapping("/{id}")
-    public ModelAndView deleteEvent(@PathVariable long id) {
-        ModelAndView modelAndView = new ModelAndView("entities");
-        boolean isDeleted = eventService.delete(id);
-        if (isDeleted) {
-            modelAndView.addObject(MESSAGE, SUCCESSFUL_DELETION_MESSAGE);
-        } else {
-            modelAndView.addObject(MESSAGE, FAILED_SEARCH_MESSAGE);
-        }
-        return modelAndView;
+
+    @PostMapping("/update/{id}")
+    public String updateEvent(@PathVariable("id") long id,
+                              @RequestParam("title") String title,
+                              @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
+
+        eventService.getEventById(id).setId(id);
+
+        eventService.create(new Event(title, date));
+        return "redirect:/events/index";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteEvent(@PathVariable("id") long id, Model model) {
+        eventService.delete(id);
+        return "redirect:/events/index";
     }
 
     @GetMapping("/{id}")

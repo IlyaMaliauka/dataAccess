@@ -1,6 +1,6 @@
 package com.epam.training.service;
 
-import com.epam.training.model.User;
+import com.epam.training.model.UserEntity;
 
 import java.util.List;
 
@@ -9,11 +9,11 @@ import java.util.List;
  */
 public interface UserService {
 
-    List<User> getAllUsers();
+    List<UserEntity> getAllUsers();
 
-    User getUserById(long userId);
+    UserEntity getUserById(long userId);
 
-    User getUserByEmail(String email);
+    UserEntity getUserByEmail(String email);
 
     /**
      * Get list of users by matching name. Name is matched using 'contains' approach.
@@ -24,7 +24,7 @@ public interface UserService {
      * @param pageNum  Pagination param. Number of the page to return. Starts from 1.
      * @return List of users.
      */
-    List<User> getUsersByName(String name, int pageSize, int pageNum);
+    List<UserEntity> getUsersByName(String name, int pageSize, int pageNum);
 
     /**
      * Creates new user. User id should be auto-generated.
@@ -32,7 +32,7 @@ public interface UserService {
      * @param user User data.
      * @return Created User object.
      */
-    User createUser(User user);
+    UserEntity createUser(UserEntity user);
 
     /**
      * Updates user using given data.
@@ -40,7 +40,7 @@ public interface UserService {
      * @param user User data for update. Should have id set.
      * @return Updated User object.
      */
-    User updateUser(User user);
+    UserEntity updateUser(UserEntity user);
 
     /**
      * Deletes user by its id.

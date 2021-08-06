@@ -3,7 +3,7 @@ package com.epam.training.service;
 import com.epam.training.model.Category;
 import com.epam.training.model.Event;
 import com.epam.training.model.Ticket;
-import com.epam.training.model.User;
+import com.epam.training.model.UserEntity;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public interface TicketService {
      * @return Booked ticket object.
      * @throws IllegalStateException if this place has already been booked.
      */
-    Ticket bookTicket(User user, Event event, int place, Category category);
+    Ticket bookTicket(UserEntity user, Event event, int place, Category category);
 
     /**
      * Get all booked tickets for specified user. Tickets should be sorted by event date in descending order.
@@ -32,7 +32,7 @@ public interface TicketService {
      * @param pageNum  Pagination param. Number of the page to return. Starts from 1.
      * @return List of Ticket objects.
      */
-    List<Ticket> getBookedTickets(User user, int pageSize, int pageNum);
+    List<Ticket> getBookedTickets(UserEntity user, int pageSize, int pageNum);
 
     /**
      * Get all booked tickets for specified event. Tickets should be sorted in by user email in ascending order.

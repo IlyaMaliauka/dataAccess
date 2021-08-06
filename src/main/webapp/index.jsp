@@ -8,9 +8,9 @@
 <body>
 
 <h1>Hello from booking app main page! Please, choose what entity you want to manage: </h1>
-<a href="/spring-intro/users/">Users</a>
-<a href="/spring-intro/tickets/">Tickets</a>
-<a href="/spring-intro/events/">Events</a>
+<a href="/spring-intro/users/index">Users</a>
+<a href="/spring-intro/tickets/index">Tickets</a>
+<a href="/spring-intro/events/index">Events</a>
 
 </body>
 </html>

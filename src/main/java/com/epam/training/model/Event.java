@@ -1,11 +1,10 @@
 package com.epam.training.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -13,6 +12,9 @@ import java.util.Date;
  */
 @Entity
 @Data
+@Table(name = "events", schema = "public")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Event {
 
     @Id
@@ -22,12 +24,6 @@ public class Event {
     private String title;
     private Date date;
 
-    /**
-     * Instantiates a new Event.
-     *
-     * @param title the title
-     * @param date  the date
-     */
     public Event(String title, Date date) {
         this.title = title;
         this.date = date;

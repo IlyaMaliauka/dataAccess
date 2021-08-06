@@ -1,18 +1,20 @@
 package com.epam.training.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import com.epam.training.model.Category;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * The type Ticket.
  */
 @Data
 @Entity
+@Table(name = "tickets", schema = "public")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Ticket {
 
     @Id
@@ -24,14 +26,6 @@ public class Ticket {
     private Category category;
     private int place;
 
-    /**
-     * Instantiates a new Ticket.
-     *
-     * @param eventId  the event id
-     * @param userId   the user id
-     * @param category the category
-     * @param place    the place
-     */
     public Ticket(long eventId, long userId, Category category, int place) {
         this.eventId = eventId;
         this.userId = userId;

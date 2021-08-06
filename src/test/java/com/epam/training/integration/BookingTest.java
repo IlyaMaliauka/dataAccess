@@ -4,7 +4,7 @@ import com.epam.training.config.SpringConfig;
 import com.epam.training.model.Category;
 import com.epam.training.model.Event;
 import com.epam.training.model.Ticket;
-import com.epam.training.model.User;
+import com.epam.training.model.UserEntity;
 import com.epam.training.service.EventService;
 import com.epam.training.service.TicketService;
 import com.epam.training.service.UserService;
@@ -25,7 +25,7 @@ public class BookingTest {
     private static UserService userService;
     private static TicketService ticketService;
     private static EventService eventService;
-    private static User testUser;
+    private static UserEntity testUser;
     private static Event testEvent;
     private static Ticket testTicket;
 
@@ -39,7 +39,7 @@ public class BookingTest {
 
     @Test
     public void createUser() {
-        testUser = new User("ivan", "ivan@mail.ru");
+        testUser = new UserEntity("ivan", "ivan@mail.ru");
         userService.createUser(testUser);
         assertThat(testUser).isEqualTo(userService.getUserById(testUser.getId()));
     }

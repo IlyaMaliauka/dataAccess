@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.epam.training.config.SpringConfig;
 import com.epam.training.config.SpringMvcConfig;
 import com.epam.training.controller.UserController;
-import com.epam.training.model.User;
+import com.epam.training.model.UserEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
@@ -32,7 +32,7 @@ public class UserControllerTest {
     public void adduser() throws Exception {
         mockMvc.perform( MockMvcRequestBuilders
                 .post("/employees")
-                .content(asJsonString(new User("sampleuser", "mail@mail.com")))
+                .content(asJsonString(new UserEntity("sampleuser", "mail@mail.com")))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
     }

@@ -3,7 +3,7 @@ package com.epam.training.service.impl;
 
 import com.epam.training.model.Event;
 import com.epam.training.model.Ticket;
-import com.epam.training.model.User;
+import com.epam.training.model.UserEntity;
 import com.epam.training.repository.TicketRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,21 +26,21 @@ public class TicketServiceImpl implements TicketService {
     private final TicketRepo ticketRepo;
 
     @Override
-    public Ticket bookTicket(User user, Event event, int place, Category category) {
+    public Ticket bookTicket(UserEntity user, Event event, int place, Category category) {
         log.info("Attempting to book new ticket for {} event for user with id {}", user.getId(), event.getId());
         return ticketRepo.save(new Ticket(event.getId(), user.getId(), category, place));
     }
 
     @Override
-    public List<Ticket> getBookedTickets(User user, int pageSize, int pageNum) {
+    public List<Ticket> getBookedTickets(UserEntity user, int pageSize, int pageNum) {
         log.info("Attempting to get all tickets of user with id {}", user.getId());
-        return ticketRepo.findByUser(user);
+        return ticketRepo.findByUserId(user.getId());
     }
 
     @Override
     public List<Ticket> getBookedTickets(Event event, int pageSize, int pageNum) {
         log.info("Attempting to get all booked tickets for event {}", event);
-        return ticketRepo.findByEvent(event);
+        return ticketRepo.findByEventId(event.getId());
     }
 
     @Override
